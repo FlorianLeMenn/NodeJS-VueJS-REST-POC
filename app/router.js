@@ -15,6 +15,9 @@ router.get('/logout', authController.logout);
 
 router.get('/admin', adminController.adminPage);
 
+router.get('/users', userController.getAllUsers);
+router.get('/groups', groupController.getAllGroups);
+
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
 
