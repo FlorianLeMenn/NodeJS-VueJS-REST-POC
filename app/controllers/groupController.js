@@ -3,72 +3,82 @@ const { Group } = require("../models");
 const groupController = {
 
     getAllGroups: async(req, res) => {
-        const groups = await Group.findAll({
-            include: ["group_members", "admin"],
-        });
+        try {
+            const groups = await Group.findAll({
+                include: ["group_members", "admin"],
+            });
+    
+            if(!groups)
+                return res.status(404).json({});
 
-        if(groups){
             res.json(groups);
-        }
-        else{
-            res.status(400).json({});
+                
+        } catch (err) {
+            res.status(500).json({err});
         }
     },
 
     getGroup: async(req, res) => {
-        const groupId = +req.params.id;
+        try {
+            const groupId   = +req.params.id;
+            const group     = await Group.findByPk(groupId, {
+                include: ["admin"],
+            });
     
-        const group = await Group.findByPk(groupId, {
-            include: ["admin"],
-        });
+            if(!group)
+                return res.status(404).json({});
 
-        if(group){
             res.json(group);
-        }
-        else{
-            res.status(400).json({});
+        } catch (err) {
+            res.status(500).json({err});
         }
     },
 
     createGroup: async(req, res) => {
-        const post = req.body;
+        try {
+            const post      = req.body;
+            const newGroup  = await Group.create(post);
+    
+            if(!newGroup)
+                return res.status(404).json({});
 
-        if(post.password !== post.passwordConfirm)
-            res.json('error');
-
-        const newGroup = await Group.create(post);
-
-        if(newGroup){
             res.json(newGroup);
-        }
-        else{
-            res.status(400).json({});
+        } catch (error) {
+            res.status(500).json({err});
         }
     },
 
     updateGroup: async(req, res) => {
-        const post = req.body;
+        try {
+            const post          = req.body;
+            const updatedGroup  = await Group.update(post,{
+                where: {id: +req.params.id},
+                returning: true
+            });
+    
+            if(!updatedGroup)
+                return res.status(404).json({});
 
-        const updatedGroup = await Group.update(post);
-
-        if(updatedGroup){
-            res.json(updatedGroup);
-        }
-        else{
-            res.status(400).json({});
+            res.json(updatedGroup); 
+        } catch (error) {
+            res.status(500).json({err});
         }
     },
 
     deleteGroup: async(req, res) => {
-        const groupId = +req.params.id;
-
-        const deletedGroup = await Group.delete(groupId);
-
-        if(deletedGroup){
+        try {
+            const groupId       = +req.params.id;
+            const deletedGroup  = await Group.delete(groupId,{
+                where: {id: +req.params.id},
+                returning: true
+            });
+    
+            if(!deletedGroup)
+                return res.status(404).json({});
+                
             res.json(group);
-        }
-        else{
-            res.status(400).json({});
+        } catch (error) {
+            res.status(500).json({err});
         }
     },
 

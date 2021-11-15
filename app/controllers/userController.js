@@ -3,70 +3,83 @@ const { User } = require("../models");
 const userController = {
 
     getAllUsers: async(req, res) => {
-        const users = await User.findAll({});
+        try {
+            const users = await User.findAll({});
 
-        if(users){
+            if(!users)
+                return res.status(404).json({});
+
             res.json(users);
-        }
-        else{
-            res.status(400).json({});
+        } catch (err) {
+            res.status(500).json({err});
         }
     },
 
     getUser: async(req, res) => {
-        const userId = +req.params.id;
+        try {
+            const userId    = +req.params.id;
+            const user      = await User.findByPk(userId, {
+                include: ["groups_owner"]
+            });
     
-        const user = await User.findByPk(userId, {
-            include: ["groups_owner"]
-        });
+            if(!user)
+                return res.status(404).json({});
 
-        if(user){
             res.json(user);
-        }
-        else{
-            res.status(400).json({});
+        } catch (err) {
+            res.status(500).json({err});
         }
     },
 
     createUser: async(req, res) => {
-        const post = req.body;
+        try {
+            const post = req.body;
 
-        if(post.password !== post.passwordConfirm)
-            res.json('error');
-
-        const newUser = await User.create(post);
-
-        if(newUser){
+            if(post.password !== post.passwordConfirm)
+                res.json('error');
+    
+            const newUser = await User.create(post);
+    
+            if(!newUser)
+                return res.status(404).json({});
+    
             res.json(newUser);
-        }
-        else{
-            res.status(400).json({});
+        } catch (err) {
+            res.status(500).json({err});
         }
     },
 
     updateUser: async(req, res) => {
-        const post = req.body;
+        try {
+            const post          = req.body;
+            const updatedUser   = await User.update(post, {
+                where: {id: +req.params.id},
+                returning: true
+            });
     
-        const updatedUser = await User.update(post);
-
-        if(updatedUser){
-            res.json(newUser);
-        }
-        else{
-            res.status(400).json({});
+            if(!updatedUser)
+                return res.status(404).json({});
+    
+            res.json(updatedUser);
+        } catch (err) {
+            res.status(500).json({err});
         }
     },
 
     deleteUser: async(req, res) => {
-        const userId = +req.params.id;
+        try {
+            const userId        = +req.params.id;
+            const deletedUser   = await User.delete(userId, {
+                where: {id: +req.params.id},
+                returning: true
+            });
     
-        const deletedUser = await User.update(userId);
-
-        if(deletedUser){
-            res.json(newUser);
-        }
-        else{
-            res.status(400).json({});
+            if(!deletedUser)
+                return res.status(404).json({});
+    
+            res.json(deletedUser);
+        } catch (err) {
+            res.status(500).json({err});
         }
     },
 
