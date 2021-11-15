@@ -51,16 +51,17 @@ const userController = {
 
     updateUser: async(req, res) => {
         try {
-            const post          = req.body;
-            const updatedUser   = await User.update(post, {
+            const post = req.body;
+            //destructuration de tableau: [users] => recup le 1er element
+            const [nbUserUpdated, [users]]   = await User.update(post, {
                 where: {id: +req.params.id},
                 returning: true
             });
     
-            if(!updatedUser)
+            if(!nbUserUpdated)
                 return res.status(404).json({});
     
-            res.json(updatedUser);
+            res.json(users);
         } catch (err) {
             res.status(500).json({err});
         }
@@ -68,16 +69,15 @@ const userController = {
 
     deleteUser: async(req, res) => {
         try {
-            const userId        = +req.params.id;
-            const deletedUser   = await User.delete(userId, {
-                where: {id: +req.params.id},
-                returning: true
+            const userId      = +req.params.id;
+            const nbRemoved   = await User.destroy(userId, {
+                where: {id: +req.params.id}
             });
     
-            if(!deletedUser)
+            if(!nbRemoved)
                 return res.status(404).json({});
     
-            res.json(deletedUser);
+            res.json({succes:true});
         } catch (err) {
             res.status(500).json({err});
         }

@@ -7,7 +7,7 @@ const groupController = {
             const groups = await Group.findAll({
                 include: ["group_members", "admin"],
             });
-    
+
             if(!groups)
                 return res.status(404).json({});
 
@@ -24,7 +24,7 @@ const groupController = {
             const group     = await Group.findByPk(groupId, {
                 include: ["admin"],
             });
-    
+
             if(!group)
                 return res.status(404).json({});
 
@@ -38,46 +38,46 @@ const groupController = {
         try {
             const post      = req.body;
             const newGroup  = await Group.create(post);
-    
+
             if(!newGroup)
                 return res.status(404).json({});
 
             res.json(newGroup);
-        } catch (error) {
+        } catch (err) {
             res.status(500).json({err});
         }
     },
 
     updateGroup: async(req, res) => {
         try {
-            const post          = req.body;
-            const updatedGroup  = await Group.update(post,{
+            const post = req.body;
+            //destructuration de tableau: [groups] => recup le 1er element
+            const [nbGroupUpdated, [groups]]  = await Group.update(post,{
                 where: {id: +req.params.id},
-                returning: true
+                returning: true //retourne les données MAJ, en 2eme position du tableau
             });
-    
-            if(!updatedGroup)
-                return res.status(404).json({});
 
-            res.json(updatedGroup); 
-        } catch (error) {
+            if(!nbGroupUpdated)
+                return res.status(404).json({});
+            //on retroune le premier élément modifié
+            res.json(groups); 
+        } catch (err) {
             res.status(500).json({err});
         }
     },
 
     deleteGroup: async(req, res) => {
         try {
-            const groupId       = +req.params.id;
-            const deletedGroup  = await Group.delete(groupId,{
-                where: {id: +req.params.id},
-                returning: true
+            const groupId    = +req.params.id;
+            const nbRemoved  = await Group.destroy(groupId,{
+                where: {id: +req.params.id}
             });
     
-            if(!deletedGroup)
+            if(!nbRemoved)
                 return res.status(404).json({});
                 
-            res.json(group);
-        } catch (error) {
+            res.json({succes:true});
+        } catch (err) {
             res.status(500).json({err});
         }
     },
