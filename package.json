@@ -1,0 +1,32 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "email-validator": "^2.0.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "pg": "^8.7.1",
+    "sanitizer": "^0.1.3",
+    "sequelize": "^6.9.0"
+  },
+  "name": "nodejs-vuejs-rest-poc",
+  "description": "POC NodeJS : Créer une API REST, consommer en front par du VueJS",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FlorianLeMenn/NodeJS-VueJS-REST-POC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FlorianLeMenn/NodeJS-VueJS-REST-POC/issues"
+  },
+  "homepage": "https://github.com/FlorianLeMenn/NodeJS-VueJS-REST-POC#readme"
+}
