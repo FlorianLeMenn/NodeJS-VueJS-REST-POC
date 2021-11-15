@@ -2,6 +2,32 @@ const { User } = require("../models");
 
 const userController = {
 
+    getAllUsers: async(req, res) => {
+        const users = await User.findAll({});
+
+        if(users){
+            res.json(users);
+        }
+        else{
+            res.status(400).json({});
+        }
+    },
+
+    getUser: async(req, res) => {
+        const userId = +req.params.id;
+    
+        const user = await User.findByPk(userId, {
+            include: ["groups_owner"]
+        });
+
+        if(user){
+            res.json(user);
+        }
+        else{
+            res.status(400).json({});
+        }
+    },
+
     createUser: async(req, res) => {
         const post = req.body;
 
@@ -11,19 +37,6 @@ const userController = {
         const newUser = await User.create(post);
 
         if(newUser){
-            res.json(newUser);
-        }
-        else{
-            res.status(400).json({});
-        }
-    },
-
-    readUser: async(req, res) => {
-        const userId = +req.body.id;
-    
-        const user = await User.read(userId);
-
-        if(user){
             res.json(newUser);
         }
         else{
@@ -45,7 +58,7 @@ const userController = {
     },
 
     deleteUser: async(req, res) => {
-        const userId = +req.body.id;
+        const userId = +req.params.id;
     
         const deletedUser = await User.update(userId);
 
@@ -56,7 +69,6 @@ const userController = {
             res.status(400).json({});
         }
     },
-
 
 }
 
