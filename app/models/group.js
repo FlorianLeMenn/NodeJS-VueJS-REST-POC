@@ -18,7 +18,7 @@ Group.init({
     {
         sequelize, //connexion a l'intance
         timestamps: true,
-        modelName: 'Group',
+        tableName: 'group',
     },
 );
 
