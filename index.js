@@ -5,6 +5,7 @@ const express   = require('express');
 const session   = require('express-session');
 const app       = express();
 const router    = require('./app/router');
+const sequelize = require('./app/database')
 const PORT      = process.env.PORT || 3000;
 
 //Gestion du body parser: rendre clair les réponses des forms (post)
@@ -24,6 +25,12 @@ app.use((req, res, next) => {
     //on passe au prochaine middleware, sinon on reste bloqué dans celui-ci
     next();
 });
+
+// Creer les tables si elle n'existe pas: option force
+// const init_BDD = async () => {
+//     await sequelize.sync({force: true});
+// } 
+// init_BDD();
 
 // On dis à notre application express d'utiliser le router que l'on a récupérer de notre fichier router.js
 app.use(router);
