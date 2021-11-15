@@ -15,7 +15,7 @@ User.init({
             type: Sequelize.STRING,
             allowNull: false
         },
-        mail: {
+        email: {
             type: Sequelize.STRING,
             allowNull: false,
             unique: true
@@ -42,11 +42,11 @@ User.init({
 
     },
     {
+        underscored: true,
         sequelize, //connexion a l'instance
         timestamps: true,
         tableName: 'user'
     }
 );
-
 
 module.exports = User;

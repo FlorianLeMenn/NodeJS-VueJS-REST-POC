@@ -16,6 +16,7 @@ Group.init({
     }, 
     },
     {
+        underscored: true,
         sequelize, //connexion a l'intance
         timestamps: true,
         tableName: 'group',
