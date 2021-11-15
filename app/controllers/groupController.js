@@ -3,7 +3,9 @@ const { Group } = require("../models");
 const groupController = {
 
     getAllGroups: async(req, res) => {
-        const groups = await Group.findAll({});
+        const groups = await Group.findAll({
+            include: ["group_members", "admin"],
+        });
 
         if(groups){
             res.json(groups);

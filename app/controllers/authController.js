@@ -35,7 +35,7 @@ const auhtController = {
             //4. Vérifier que l'email est unique
             const user = await User.findOne({
                 where: {
-                    mail: form.email.toLowerCase()
+                    email: form.email.toLowerCase()
                 }
             });
 
@@ -44,7 +44,7 @@ const auhtController = {
             //5. Enregistrer le user en base
             delete form.passwordConfirm; //supprimer les champs inutiles
             const dataUser = {
-                mail: form.email,
+                email: form.email,
                 password: hashSync(form.password, 10),//On hash le mot de passe avant de l'enregistrer en base
                 username: form.username,
                 roles: ["ROLE_USER"]
@@ -71,7 +71,7 @@ const auhtController = {
             //2.Vérifier que l'utilisateur existe bien
             const user =  await User.findOne({
                 where: {
-                    mail:form.email,
+                    email:form.email,
                 }
             });
     
@@ -83,7 +83,7 @@ const auhtController = {
             //3. Créer la variable (propriété) de session login, stocké coté serveur
             req.session.login = {
                 id: user.id,
-                email: user.mail,
+                email: user.email,
                 username: user.username,
                 fullname: user.fullname,
                 roles: user.roles,
