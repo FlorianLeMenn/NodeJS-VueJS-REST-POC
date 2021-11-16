@@ -35,7 +35,7 @@ GroupMembers.belongsTo(Group,{
     foreignKey: 'group_id', // nom du champs de la clef etrangère
 });
 
-//Un membre est associé à un utilisateur
+//Un membre dépend d'un utilisateur
 GroupMembers.belongsTo(User,{
     as: 'member', // nom de la relation / alias
     foreignKey: 'user_id', // nom du champs de la clef etrangère

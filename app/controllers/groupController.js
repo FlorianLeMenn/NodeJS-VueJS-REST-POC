@@ -5,7 +5,15 @@ const groupController = {
     getAllGroups: async(req, res) => {
         try {
             const groups = await Group.findAll({
-                include: ["group_members", "admin"],
+                include: [{
+                    association: "group_members",
+                    attributes: ["username_alias","user_id"]
+                },
+                {
+                    association: "admin",
+                    attributes: ["username", "id"]
+                } 
+                ],
             });
 
             if(!groups)
@@ -22,7 +30,16 @@ const groupController = {
         try {
             const groupId   = +req.params.id;
             const group     = await Group.findByPk(groupId, {
-                include: ["admin"],
+                include: [
+                    {
+                        association: "group_members",
+                        attributes: ["username_alias","user_id"]
+                    },
+                    {
+                        association: 'admin',
+                        attributes: ["id"]
+                    },
+                ]
             });
 
             if(!group)
@@ -69,8 +86,8 @@ const groupController = {
     deleteGroup: async(req, res) => {
         try {
             const groupId    = +req.params.id;
-            const nbRemoved  = await Group.destroy(groupId,{
-                where: {id: +req.params.id}
+            const nbRemoved  = await Group.destroy({
+                where: {id: groupId}
             });
     
             if(!nbRemoved)

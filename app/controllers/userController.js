@@ -19,7 +19,7 @@ const userController = {
         try {
             const userId    = +req.params.id;
             const user      = await User.findByPk(userId, {
-                include: ["groups_owner"]
+                include: ["groups_owner", "my_groups"]
             });
     
             if(!user)
@@ -35,8 +35,8 @@ const userController = {
         try {
             const post = req.body;
 
-            if(post.password !== post.passwordConfirm)
-                res.json('error');
+            // if(post.password !== post.passwordConfirm)
+            //     res.json('error');
     
             const newUser = await User.create(post);
     
@@ -69,9 +69,9 @@ const userController = {
 
     deleteUser: async(req, res) => {
         try {
-            const userId      = +req.params.id;
-            const nbRemoved   = await User.destroy(userId, {
-                where: {id: +req.params.id}
+            const userId    = +req.params.id;
+            const nbRemoved = await User.destroy({
+                where: {id: userId}
             });
     
             if(!nbRemoved)
