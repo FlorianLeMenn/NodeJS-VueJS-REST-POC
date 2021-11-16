@@ -22,7 +22,8 @@ router.get('/admin', adminController.adminPage);
  * All User routes
 */
 router.get('/users', userController.getAllUsers);
-router.route('/users/:id(\\d+)')
+router.post('/user', userController.createUser);
+router.route('/user/:id(\\d+)')
     .get(userController.getUser)
     .patch(userController.updateUser)
     .delete(userController.deleteUser);
@@ -31,7 +32,8 @@ router.route('/users/:id(\\d+)')
  * All Group routes
 */
 router.get('/groups', groupController.getAllGroups);
-router.route('/groups/:id(\\d+)')
+router.post('/group', groupController.createGroup);
+router.route('/group/:id(\\d+)')
     .get(groupController.getGroup)
     .patch(groupController.updateGroup)
     .delete(groupController.deleteGroup);
