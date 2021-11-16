@@ -10,13 +10,13 @@ GroupMembers.init({
             allowNull: true
         },
         roles: {
-            type: Sequelize.STRING,
+            type: Sequelize.JSON,
             allowNull: false,
-            default: ["ROLE_GROUP_MEMBER"]
+            defaultValue: {roles:["ROLE_GROUP_MEMBER"]}
         },
         access: {
             type: Sequelize.BOOLEAN,
-            default: false
+            defaultValue: true
         }, 
     },
     {

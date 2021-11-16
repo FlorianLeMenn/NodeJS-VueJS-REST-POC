@@ -12,7 +12,7 @@ Group.init({
     description:Sequelize.TEXT, //je ne precise que le type car par default il peut etre null
     private: {
         type: Sequelize.BOOLEAN,
-        default: false
+        defaultValue: false
     }, 
     },
     {

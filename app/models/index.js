@@ -1,9 +1,9 @@
 const sequelize                 = require("../database");
-const {Sequelize, DataTypes}    = require('sequelize');
+const {Sequelize, DataTypes, Op}    = require('sequelize');
 
 const User          = require('./user');
 const Group         = require('./group');
-const GroupMembers  = require('./group_members');
+const GroupMembers  = require('./groupMembers');
 
 //Un group peut avoit 0 ou N utilisateurs
 Group.belongsToMany(User,{ 
@@ -70,4 +70,4 @@ User.hasMany(Group, {
     as: 'groups_owner'
 })
 
-module.exports = {User, Group};
+module.exports = {User, Group, GroupMembers};

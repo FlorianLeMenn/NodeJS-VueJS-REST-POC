@@ -3,6 +3,7 @@ const router            = express.Router();
 const mainController    = require('./controllers/mainController');
 const userController    = require('./controllers/userController');
 const groupController   = require('./controllers/groupController');
+const membersController = require('./controllers/groupMembersController');
 const authController    = require('./controllers/authController');
 const adminController   = require('./controllers/adminController');
 
@@ -33,6 +34,9 @@ router.route('/user/:id(\\d+)')
 */
 router.get('/groups', groupController.getAllGroups);
 router.post('/group', groupController.createGroup);
+router.get('/group/:id(\\d+)/members', membersController.getAllMembers);
+router.post('/group/:id(\\d+)/members/add', membersController.addMember);
+router.delete('/group/:id(\\d+)/members', membersController.removeMember);
 router.route('/group/:id(\\d+)')
     .get(groupController.getGroup)
     .patch(groupController.updateGroup)
