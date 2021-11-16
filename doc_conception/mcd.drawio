@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="sKfvh-1BNVT6LNfuZ2vX" name="Page-1">
-        <mxGraphModel dx="1174" dy="709" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="1117" dy="709" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -133,10 +133,10 @@
                 <mxCell id="36" value="MEMBERS" style="rounded=0;whiteSpace=wrap;html=1;" parent="43" vertex="1">
                     <mxGeometry width="120" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="37" value="user_id&lt;br&gt;group_id&lt;br&gt;grant&lt;br&gt;roles" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="43" vertex="1">
+                <mxCell id="37" value="user_id&lt;br&gt;group_id&lt;br&gt;access&lt;br&gt;roles" style="whiteSpace=wrap;html=1;aspect=fixed;" parent="43" vertex="1">
                     <mxGeometry y="30" width="120" height="120" as="geometry"/>
                 </mxCell>
-                <mxCell id="46" value="Un groupe peut avoir 0,N membres associés" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" vertex="1" parent="1">
+                <mxCell id="46" value="Un groupe peut avoir 0,N membres associés" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" parent="1" vertex="1">
                     <mxGeometry x="274" y="70" width="250" height="20" as="geometry"/>
                 </mxCell>
             </root>
