@@ -47,7 +47,7 @@ const auhtController = {
                 email: form.email,
                 password: hashSync(form.password, 10),//On hash le mot de passe avant de l'enregistrer en base
                 username: form.username,
-                roles: ["ROLE_USER"]
+                roles: {roles:["ROLE_USER"]}
             }
             const newUser = await User.create(dataUser);
             if(newUser) {

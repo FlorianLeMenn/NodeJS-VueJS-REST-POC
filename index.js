@@ -1,26 +1,28 @@
 // On configure nos variables d'environements
 require('dotenv').config();
 
-const express   = require('express');
-const session   = require('express-session');
-const cors      = require('cors');
-const sanitizer = require('sanitizer');
-const multer    = require('multer');
-const app       = express();
-const bodyParser = multer();
-const router    = require('./app/router');
-const sequelize = require('./app/database')
-const PORT      = process.env.PORT || 3000;
+const express           = require('express');
+const session           = require('express-session');
+const cors              = require('cors');
+const sanitizer         = require('sanitizer');
+const multer            = require('multer');
+const app               = express();
+const bodyParser        = multer();
+const router            = require('./app/router');
+const sequelize         = require('./app/database')
+const expressSwagger    = require('express-swagger-generator')(app);
+const PORT              = process.env.PORT || 3000;
 
 // J'autorise le monde entier à accéder sur mon API
 // Ce n'est pas recommandé
- app.use(cors());
+// app.use(cors());
 
 // L'origine null est le cas où l'on essaye d'acceder à notre API depuis un fichier HTML sans serveur derrière
-// const corsOptions = {
-//   origin: 'null',
-//   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-// }
+const corsOptions = {
+    origin: [`${process.env.DEV}:${PORT}`, 'null'], //string, array ou callback possible
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions));
 
 // on utlise .none() pour dire qu'on attends pas de fichier, uniquement des inputs "classiques" !
 app.use(bodyParser.none());
@@ -49,6 +51,7 @@ app.use(express.urlencoded({extended:true}));
 // } 
 // init_BDD();
 
+//Sécurité des données reçu
 app.use((req, res, next) => {
     // Pour chaque Donnée dans mon req.body
     for(const key in req.body) {
@@ -64,6 +67,33 @@ app.use((req, res, next) => {
 
     next();
 });
+
+let options = {
+    swaggerDefinition: {
+        info: {
+            description: 'This is a sample server',
+            title: 'Swagger',
+            version: '1.0.0',
+        },
+        host: `${process.env.DEV}:${PORT}`,
+        basePath: '/v1',
+        produces: [
+            "application/json",
+        ],
+        schemes: ['http', 'https'],
+        securityDefinitions: {
+            JWT: {
+                type: 'apiKey',
+                in: 'header',
+                name: 'Authorization',
+                description: "",
+            }
+        }
+    },
+    basedir: __dirname, //app absolute path
+    files: ['./app/router.js'] //Path to the API handle folder
+};
+expressSwagger(options);
 
 // On dis à notre application express d'utiliser le router que l'on a récupérer de notre fichier router.js
 app.use(router);
