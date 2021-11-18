@@ -3,6 +3,16 @@
 Créer une application permettant aux utilisateurs de se connecter est de visualiser la liste des utilisateurs et des groupes.
 Les utilisateurs peuvent renseigner des informations sur leur profil et rejoindre des groupes.
 
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads VueJS for development
+```
+npm run dev
+```
+
 ## Analyse du projet
 
 Ce que l'application doit faire :
