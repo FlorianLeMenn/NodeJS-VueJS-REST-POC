@@ -1,6 +1,6 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }">
+  <Disclosure as="nav" class="bg-gray-800" v-slot="{ open }" >
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -18,7 +18,15 @@
           </div>
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
-              <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+              <!-- <a v-for="item in navigation" :key="item.name" :href="item.href" :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined">{{ item.name }}</a>
+              -->
+              <router-link 
+              v-for="item in navigation" 
+              :key="item.name" 
+              :to="item.href"
+              :class="[item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white', 'px-3 py-2 rounded-md text-sm font-medium']" :aria-current="item.current ? 'page' : undefined"
+              > {{ item.name }} 
+              </router-link>
             </div>
           </div>
         </div>
@@ -67,9 +75,10 @@ import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuIt
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
 
 const navigation = [
-  { name: 'Groupes', href: '#', current: true },
-  { name: 'Utilisateur', href: '#', current: false },
-  { name: 'Projets', href: '#', current: false },
+  { name: 'Groupes', href: '/', current: true },
+  { name: 'Utilisateur', href: '/users', current: false },
+  { name: 'S\'enregistrer', href: '/register', current: false },
+  { name: 'Se connecter', href: '/login', current: false },
   { name: 'Calendrier', href: '#', current: false },
 ]
 
@@ -91,5 +100,20 @@ export default {
       navigation,
     }
   },
+  watch: {
+
+  },
+  methods: {
+    setCurrent() {
+      for (const [key, item] of Object.entries(this.navigation)) {
+        item.current = false;
+
+        if( item.href.includes(this.$route.path)) {
+          item.current = true;
+        } 
+      }
+      console.log(this.navigation);
+    }
+  }
 }
 </script>

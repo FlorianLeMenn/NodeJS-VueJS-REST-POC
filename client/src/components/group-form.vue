@@ -20,13 +20,16 @@
                 <span class="text-gray-500 font-medium" >Création :</span> {{ group.createdAt }}
                 </div>
                 <button class="py-2 px-4 font-semibold rounded-md shadow-md text-white bg-green-500 hover:bg-green-700">Modifier</button>
-                <button class="py-2 px-4 font-semibold rounded-md shadow-md text-white bg-red-500 hover:bg-red-700">Supprimer</button>
+                <button @click="deleteGroup(group.id)"  class="py-2 px-4 font-semibold rounded-md shadow-md text-white bg-red-500 hover:bg-red-700">Supprimer</button>
             </div>
         </div>
     </div>
     <div class="px-8 flex justify-center flex-wrap content-center sm:justify-around">
         <div class="my-8 py-6 px-6 max-w-md mx-auto bg-white rounded-l shadow-md space-y-6 md:py-6 md:flex-row md:items-center md:space-y-8 md:space-x-6">
             <h2 class="text-lg text-black font-semibold" >Ajouter un groupe</h2>
+            <div v-if="error">
+                <p class="text-red-500 text-xs italic">{{ error }}</p>
+            </div>
             <form @submit.prevent="addGroup" method="POST" action="http://localhost:3000/group" >
                 <div>
                     <label for="title" class="block text-sm font-medium text-gray-700">Titre</label>
@@ -91,6 +94,7 @@ export default {
     name: 'groupForm',
     data() {
         return {
+            error: '',
             groups: [],
             newGroup: {
                 title: null,
@@ -102,22 +106,22 @@ export default {
     },
     async mounted() {
         try {
-        const resp = await axios.get('/groups');
-        if (!resp)
-            return 'Groups not found.'
+            const resp = await axios.get('/groups');
+            if (!resp)
+                return 'Groups not found.'
 
-        this.groups = resp.data;
+            this.groups = resp.data;
         } catch (error) {
             this.message = "Groups error.";
         }
     },
     async updated() {
         try {
-        const resp = await axios.get('/groups');
-        if (!resp)
-            return 'Groups not found.'
+            const resp = await axios.get('/groups');
+            if (!resp)
+                return 'Groups not found.'
 
-        this.groups = resp.data;
+            this.groups = resp.data;
         } catch (error) {
             this.message = "Groups error.";
         }
@@ -125,18 +129,30 @@ export default {
     methods: {
         async addGroup() {
             try {
-                console.log(this.newGroup)
-                if(!this.newGroup.title || !this.newGroup.user_id) return;
+                if(!this.newGroup.title || !this.newGroup.user_id) return this.error = 'Champs incomplet';
 
                 const resp = await axios.post('http://localhost:3000/group', this.newGroup);
                 if (!resp)
                     return 'Groups not found.'
-
-                console.log(resp.data);
             } catch (error) {
                 this.message = "Groups error.";
             }
         },
+        async editGroup() {
+
+        },
+        async deleteGroup(id) {
+            try {
+                if(!id) return;
+                const resp = await axios.delete(`http://localhost:3000/group/${id}`);
+                if (!resp)
+                    return 'Groups not found.'
+                console.log(resp);
+
+            } catch (error) {
+                this.message = "Groups error.";
+            }
+        }
     },
     computed: {
         capitalizeTitle() {
