@@ -12,7 +12,8 @@
     "axios": "^0.24.0",
     "core-js": "^3.6.5",
     "vue": "^3.0.0",
-    "vue-loader": "^16.8.3"
+    "vue-loader": "^16.8.3",
+    "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^5.0.0-rc.1",
