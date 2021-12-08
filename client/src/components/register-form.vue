@@ -1,6 +1,7 @@
 <template>
   <div class="bg-indigo-100 flex justify-center items-center">
     <div class="lg:w-2/5 md:w-1/2 w-2/3">
+      
       <form
         @submit.prevent="addUser"
         method="POST"
@@ -149,6 +150,7 @@
           S'enregistrer
         </button>
       </form>
+      <FlashMessage />
     </div>
   </div>
 </template>
@@ -174,18 +176,31 @@ export default {
       },
     };
   },
-  components: {},
+  components: {
+  },
   watch: {
     //whenever question changes, this function will run
   },
   methods: {
     async addUser() {
       try {
-        const resp = await axios.post(`/user`, this.newUser);
-        if (!resp) this.message = "User not found.";
+        const message = await axios.post(`/signup`, this.newUser);
+        if (!message) {
+          this.$flashMessage.show({
+              type: 'error',
+              title: 'Création du compte',
+              message: 'Impossible de creer le compte'
+          });
+        }
 
-        this.user = resp.data;
+        this.$flashMessage.show({
+            type: 'success',
+            title: 'Création du compte',
+            text: message.data
+        });
+
       } catch (error) {
+   
         this.error = error.response.data;
       }
     },

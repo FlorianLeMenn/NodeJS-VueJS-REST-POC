@@ -1,5 +1,5 @@
 const { validate }      = require('email-validator');
-const {compare, hash}   = require('bcrypt');
+const {compare, hashSync}   = require('bcrypt');
 const { User }          = require('../models');
 
 const auhtController = {
@@ -24,40 +24,43 @@ const auhtController = {
             const errors = [];
             const form   = req.body;
             //2. Vérifier que tous les champs obligatoire soient remplis + email valide
-            if(!req.body.lastname || !req.body.firstname || !req.body.password || !req.body.passwordConfirm) errors.push("Les champs du formulaire n'ont pas été correctement remplis !");
-
-            if(!validate(req.body.email)) errors.push("L'adresse email renseignée n'est pas correcte !");
+            if(!form.username) return res.status(400).send({'name': 'username', 'message':'Le champs nom d\'utilisateur n\'est pas renseigné.'}); 
+            if(!form.email) return res.status(400).send({'name': 'email', 'message':'Le champs e-mail n\'est pas renseigné.'}); 
+            if(!form.birthday) return res.status(400).send({'name': 'birthday', 'message':'Le champs date de naissance n\'est pas renseigné.'}); 
+            if(!validate(form.email)) return res.status(400).send({'name': 'email', 'message':"L'adresse e-mail renseignée n'est pas correcte !"});
 
             // 3. Vérifier que les deux mots de passes soient identiques
-            if(req.body.password !== req.body.passwordConfirm) errors.push("Les deux mots de passe ne sont pas identiques !");
+            if(form.password !== form.passwordConfirm) return res.status(400).send({'name': 'passwordConfirm', 'message':"Les deux mots de passe ne sont pas identiques !"});
 
-            if(errors.length > 0) return res.render('signup', {errors, values:req.body});
             //4. Vérifier que l'email est unique
             const user = await User.findOne({
                 where: {
                     email: form.email.toLowerCase()
                 }
             });
-
-            if (user) return res.redirect('/signup');
+        
+            if (user) return res.status(400).send({'name': 'email', 'message':"L'adresse e-mail est deja utilisée."});
+            //if(errors.length > 0) return res.status(400).send(errors);
             
             //5. Enregistrer le user en base
             delete form.passwordConfirm; //supprimer les champs inutiles
+
             const dataUser = {
+                username: form.username,
                 email: form.email,
                 password: hashSync(form.password, 10),//On hash le mot de passe avant de l'enregistrer en base
-                username: form.username,
                 roles: {roles:["ROLE_USER"]}
             }
-            const newUser = await User.create(dataUser);
-            if(newUser) {
-                //6. Redirect sur la home
-                res.redirect('/login');
-            }
+   
+            const newUser = await User.create(form);
 
-        } catch(error) {
-            console.error(error);
-            res.status(500).json({error:'500'});
+            if(!newUser)
+                return res.status(404).json({});
+
+            res.status(200).json(`Le compte ${newUser.username} créé avec succès.`);
+        } 
+        catch(err) {
+            res.status(500).json({err});
         }
     },
 
