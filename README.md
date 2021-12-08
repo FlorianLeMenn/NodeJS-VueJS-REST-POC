@@ -59,6 +59,9 @@ Ce que l'application doit faire :
 
 * Accueil
   * Groupes
+  * Utilisateurs
+  * S'enregistrer
+  * Se connecter / Déconnexion
   * Mon profil
   
 
@@ -69,4 +72,4 @@ https://www.figma.com/
 ## Spécificités
 * Créer un formulaire multi-step d'inscription
 * Créer une API
-* Créer un front en VueJS
+* Créer un front en VueJS + Tailwind CSS
