@@ -26,7 +26,8 @@
     </div>
     <div class="px-8 flex justify-center flex-wrap content-center sm:justify-around">
         <div class="my-8 py-6 px-6 max-w-md mx-auto bg-white rounded-l shadow-md space-y-6 md:py-6 md:flex-row md:items-center md:space-y-8 md:space-x-6">
-            <h2 class="text-lg text-black font-semibold" >Ajouter un groupe</h2>
+            <h2 class="text-lg text-black font-semibold" >API route: POST /group <span class="block text-sm font-medium text-gray-700" >(Ajouter un groupe)</span></h2>
+
             <div v-if="error">
                 <p class="text-red-500 text-xs italic">{{ error }}</p>
             </div>
@@ -76,7 +77,7 @@
             </form>
         </div>
         <div class="my-8 py-6 px-6 max-w-md mx-auto bg-white rounded-l shadow-md space-y-6 md:py-6 md:flex-row md:items-center md:space-y-8 md:space-x-6">    
-            <h2 class="text-lg text-black font-semibold">Résultat API</h2>
+            <h2 class="text-lg text-black font-semibold">API route: GET /groups <span class="block text-sm font-medium text-gray-700" >(Lister les groupes)</span></h2>
                 <ul>
                     <li v-for="(value, name) in groups" :key="name">
                     {{ name }} - {{ value }}

@@ -76,10 +76,9 @@ import { BellIcon, MenuIcon, XIcon } from '@heroicons/vue/outline'
 
 const navigation = [
   { name: 'Groupes', href: '/', current: true },
-  { name: 'Utilisateur', href: '/users', current: false },
+  { name: 'Utilisateurs', href: '/users', current: false },
   { name: 'S\'enregistrer', href: '/register', current: false },
   { name: 'Se connecter', href: '/login', current: false },
-  { name: 'Calendrier', href: '#', current: false },
 ]
 
 export default {
