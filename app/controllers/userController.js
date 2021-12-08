@@ -34,10 +34,13 @@ const userController = {
     createUser: async(req, res) => {
         try {
             const post = req.body;
-
-            // if(post.password !== post.passwordConfirm)
-            //     res.json('error');
-    
+            if(!post.username) return res.status(400).send({'name': 'username', 'message':'Le champs nom d\'utilisateur n\'est pas renseigné.'}); 
+            if(!post.email) return res.status(400).send({'name': 'email', 'message':'Le champs e-mail n\'est pas renseigné.'}); 
+            if(!post.birthdate) return res.status(400).send({'name': 'birthday', 'message':'Le champs date de naissance n\'est pas renseigné.'}); 
+            if(post.password !== post.passwordConfirm)
+                return res.status(400).send({'name': 'passwordConfirm', 'message':'Les mots de passe ne sont pas identiques.'}); 
+            //check email is correct format
+            //check if user mail is not present
             const newUser = await User.create(post);
     
             if(!newUser)

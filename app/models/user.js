@@ -26,7 +26,6 @@ User.init({
         },
         roles: {
             type: Sequelize.STRING,
-            allowNull: false,
             default: ["ROLE_USER"]
         },
         status: {
